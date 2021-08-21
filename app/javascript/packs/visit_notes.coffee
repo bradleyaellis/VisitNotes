@@ -9,9 +9,9 @@ document.addEventListener('turbolinks:load', () ->
     .querySelector('meta[name="csrf-token"]')
     .getAttribute('content')
   element = document.getElementById 'visit-notes-form'
-  console.log(element);
+  console.log(element.dataset.visitNote);
   if element != null
-    visitNote = JSON.parse(element.dataset.document)
+    visitNote = JSON.parse(element.dataset.visitNote)
     app = new Vue(
       el: element
       data: ->
