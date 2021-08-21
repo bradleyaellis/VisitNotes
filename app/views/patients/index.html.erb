@@ -1,8 +1,26 @@
-<h1>Patients#index?</h1>
-<p>Find me in app/views/patient/index.html.erb</p>
+<div>
+    <h1>Your Patients</h1>
+    <h3 id="notice"><%= notice %> </h3>
+</div>
 
-<% @patients.each do |patient| %>
-
-<h2> <%= link_to patient.name, patient %> || </h2>
-
+    <% if !@patients.empty? %>
+            <table width="100%">
+                <thead>
+                    <tr>
+                        <th> Patient </th>
+                        <th> Next Appointment </th>
+                        <th colspan="2"> Actions </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% @patients.each do |patient| %>
+                        <tr>
+                            <td style="text-align:center"> <%= link_to patient.name, patient %></td>
+                            <td style="text-align:center"> <%= 7.days.from_now.strftime('%m/%d/%Y') %> </td>
+                            <td style="text-align:right"> <button style="border: none; background-color: #d9534f ; border-radius: 3px"> Unassign </button> </td>
+                            <td style="text-align:left"> <button style="border: none; background-color: #f0ad4e; border-radius: 3px"> Dismiss </button> </td>
+                        </tr>
+                    <% end %>
+                </tbody>
+            </table>
 <% end %>

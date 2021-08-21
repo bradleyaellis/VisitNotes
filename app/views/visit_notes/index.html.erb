@@ -1,31 +1,34 @@
-<p id="notice"><%= notice %></p>
 
-<h1>Visit Notes</h1>
+
+<div>
+  <h1> <%= @patient.name %> Visit Notes</h1> 
+  <h3 id="notice"><%= notice %></h3>
+</div>
 
   <% if !@visit_notes.empty? %>
-    <table>
+    <table width="100%">
       <thead>
         <tr>
           <th>Title</th>
           <th>Body</th>
-          <th colspan="3"></th>
+          <th colspan="3"> Actions</th>
         </tr>
       </thead>
 
       <tbody>
         <% @visit_notes.each do |visit_note| %>
           <tr>
-            <td><%= visit_note.title %></td>
-            <td><%= visit_note.body %></td>
-            <td><%= link_to 'Show', patient_visit_note_path(visit_note.patient, visit_note) %></td>
-            <td><%= link_to 'Edit', edit_patient_visit_note_path(visit_note.patient, visit_note) %></td>
-            <td><%= link_to 'Delete', patient_visit_note_path(visit_note.patient, visit_note.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            <td style="text-align:left"><%= link_to visit_note.title, patient_visit_note_path(visit_note.patient, visit_note)  %></td>
+            <td style="text-align:left"><%= visit_note.body %></td>
+            <td style="text-align:right"><%= link_to 'Edit', edit_patient_visit_note_path(visit_note.patient.id, visit_note) %></td>
+            <td style="text-align:right"><%= link_to 'Export to Pdf', "#" %></td>
+            <td style="text-align:right"><%= link_to 'Delete', patient_visit_note_path(visit_note.patient, visit_note.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
           </tr>
         <% end %>
       </tbody>
     </table>
   <% else %>
-    <h5> Patient has no visit notes. </h5>
+    <h5> <%= @patient.name %> has no visit notes. </h5>
   <% end %>
 <br>
 

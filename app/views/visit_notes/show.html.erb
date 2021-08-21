@@ -1,5 +1,3 @@
-<p id="notice"><%= notice %></p>
-
 <p>
   <strong>Title:</strong>
   <%= @visit_note.title %>
@@ -10,5 +8,7 @@
   <%= @visit_note.body %>
 </p>
 
-<%= link_to 'Edit', edit_patient_visit_note_path(@visit_note) %> |
-<%= link_to 'Back', visit_notes_path %>
+<p id="notice"><%= notice %></p>
+
+<%= link_to 'Edit', edit_patient_visit_note_path(@visit_note.patient, @visit_note) %> |
+<%= link_to 'Back', patient_visit_notes_path %>

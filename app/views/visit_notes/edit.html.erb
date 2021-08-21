@@ -2,5 +2,7 @@
 
 <%= render 'form', visit_note: @visit_note %>
 
-<%= link_to 'Show', @patient_visit_note %> |
+<p id="notice"><%= notice %></p>
+
+<%= link_to 'Show', patient_visit_note_path %> |
 <%= link_to 'Back', patient_visit_notes_path %>

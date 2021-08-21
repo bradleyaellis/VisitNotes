@@ -17,22 +17,24 @@ document.addEventListener('turbolinks:load', () ->
       data: ->
         { visit_note: visitNote }
       methods: Submit: (quicksave=false) ->
+        console.log("HereEerere");
         if visitNote.id == null
-          console.log("NEW?")
+          console.log("NEW?", quicksave)
           @$http # NEW
-            .post '/patients/1/visit_notes', visit_note: @visit_note, quicksave: quicksave 
+            .post "/patients/#{@visit_note.patient_id}/visit_notes", visit_note: @visit_note, quicksave: quicksave 
             .then(response) -> 
-              Turbolinks.visit "/patient_visit_notes/#{response.body.id}"
+              Turbolinks.visit "/patients/#{@visit_note.patient_id}/visit_notes/#{response.body.id}"
               return
             (response) -> 
               @errors = response.data.errors
               return
         else 
           @$http # EDIT 
-            .put "/patients/1/visit_notes/#{@visit_note.id}", visit_note: @visit_note, quicksave: quicksave
+            .put "/patients/#{@visit_note.patient_id}/visit_notes/#{@visit_note.id}", { visit_note: @visit_note, quicksave: quicksave }
             .then(response) -> 
-                Turbolinks.visit "/visit_notes/#{response.body.id}"
-                return
+              console.log(response.body, "RR");
+              Turbolinks.visit "/patients/#{@visit_note.patient_id}/visit_notes/#{response.body.id}"
+              return
             (response) ->
                 @errors = response.data.errors 
                 return
