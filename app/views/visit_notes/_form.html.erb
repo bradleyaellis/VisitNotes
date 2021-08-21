@@ -5,10 +5,11 @@
 <%= content_tag :div, 
   id: "visit-notes-form",
   data: {
-    visit_note: visit_note.to_json
+    visit_note: visit_note.to_json,
   } do %>
 
 <p id="notice"><%= notice %></p>
+<%= params[:patient_id] %>
 <button v-on:click="Submit(true)"> + Quick Save </button>
 
 <label> Title </label>
@@ -16,6 +17,6 @@
 <label> Body </label>
 <textarea v-model="visit_note.body" rows="10" cols="50"></textarea>
 
-<button v-on:click="Submit"> Save </button>
+<button v-on:click="Submit()"> Save </button>
 
 <% end %>

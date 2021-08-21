@@ -6,7 +6,6 @@ class VisitNotesController < ApplicationController
   end
 
   def show
-    @visit_note
   end
 
   def new
@@ -18,9 +17,12 @@ class VisitNotesController < ApplicationController
 
   def create
     @visit_note = VisitNote.new(visit_note_params)
+    @visit_note.patient_id = params[:patient_id]
 
     respond_to do |format|
       if @visit_note.save
+        return if params[:quicksave]
+
         format.html { redirect_to @visit_note, notice: "Visit note was successfully created." }
         format.json { render :show, status: :created, location: @visit_note }
       else
@@ -31,14 +33,18 @@ class VisitNotesController < ApplicationController
   end
 
   def update
-    Rails.logger.debug quicksave.inspect
+      Rails.logger.debug "HERE"
       if @visit_note.update(visit_note_params)
-        format.html { redirect_to @visit_note, notice: "Visit note was successfully updated." }
-        format.json { render :show, status: :ok, location: @visit_note }
+        if params[:quicksave] 
+          Rails.logger.debug "QUICKSAVED"
+          flash.now[:notice] = "Quicksaved" 
+          return false
+        end
+        Rails.logger.debug "Still here"
+        redirect_to(@visit_note, notice: "Visit note was successfully updated.")
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @visit_note.errors, status: :unprocessable_entity }
-    end
+        render json: @visit_note.errors, status: :unprocessable_entity 
+      end
   end
 
   def destroy

@@ -9,32 +9,32 @@ document.addEventListener('turbolinks:load', () ->
     .querySelector('meta[name="csrf-token"]')
     .getAttribute('content')
   element = document.getElementById 'visit-notes-form'
-  console.log(JSON.parse(element.dataset.visitNote));
   if element != null
     visitNote = JSON.parse(element.dataset.visitNote)
+    console.log(visitNote, "VNN");
     app = new Vue(
       el: element
       data: ->
         { visit_note: visitNote }
       methods: Submit: (quicksave=false) ->
-        console.log(quicksave, 'sq');
         if visitNote.id == null
+          console.log("NEW?")
           @$http # NEW
-            .post '/patient_visit_notes', visit_note: @visit_note, quicksave: quicksave 
-            .then(resp) -> 
-              #Turbolinks.visit "/patient_visit_notes/#{resp.body.id}"
+            .post '/patients/1/visit_notes', visit_note: @visit_note, quicksave: quicksave 
+            .then(response) -> 
+              Turbolinks.visit "/patient_visit_notes/#{response.body.id}"
               return
-            (resp) -> 
-              @errors = resp.data.errors
+            (response) -> 
+              @errors = response.data.errors
               return
         else 
           @$http # EDIT 
-            .put "/visit_notes/#{visit_note.id}", visit_note: @visit_note
-            .then(resp) -> 
-                #Turbolinks.visit "/visit_notes/#{resp.body.id}"
+            .put "/patients/1/visit_notes/#{@visit_note.id}", visit_note: @visit_note, quicksave: quicksave
+            .then(response) -> 
+                Turbolinks.visit "/visit_notes/#{response.body.id}"
                 return
-            (resp) ->
-                @errors = resp.data.errors 
+            (response) ->
+                @errors = response.data.errors 
                 return
         return
     )

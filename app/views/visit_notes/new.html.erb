@@ -1,5 +1,5 @@
 <h1>New Visit Note</h1>
-
-<%= render 'form', visit_note: @visit_note %>
+<h2> A <%= params[:patient_id] %> </h2>
+<%= render 'form', visit_note: @visit_note, patient_id: params[:patient_id] %>
 
 <%= link_to 'Back', patient_visit_notes_path %>
