@@ -1,0 +1,22 @@
+<% content_for :head do %>
+  <%= javascript_pack_tag :visit_notes %>
+<% end %>
+
+<%= content_tag :div, 
+  id: "visit-notes-form",
+  data: {
+    visit_note: visit_note.to_json
+  } do 
+%>
+
+<p id="notice"><%= notice %></p>
+<button v-on:click="quickSave"> + Quick Save </button>
+
+<label> Title </label>
+<input type="text" v-model="visit_note.title">
+<label> Body </label>
+<textarea v-model="visit_note.body" rows="10" cols="50"></textarea>
+
+<button v-on:click="Submit"> Save </button>
+
+<% end %>

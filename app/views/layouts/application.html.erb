@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>VisitNotes</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+    <% if content_for? :head %>
+      <%= yield :head %>
+    <% end %>
+  </head>
+
+  <body>
+    <div style="width: 20%; background-color:red;">
+    </div>
+    <%= yield %>
+    <div style="width: 20%; background-color:red;">
+    </div>
+  </body>
+</html>
