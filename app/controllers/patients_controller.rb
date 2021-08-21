@@ -1,5 +1,6 @@
 class PatientsController < ApplicationController
   def index
+    Rails.logger.debug Patient.all.inspect
     @patients = Patient.all
   end
 

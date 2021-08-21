@@ -1,5 +1,6 @@
 <h2> <%= @patient.name %> </h3>
 
-<%= @patient.visit_notes.each do |note| %>
-    <%= link_to note.title, edit_patient_visit_note_path(note) %>
-<% end %>
+<%= link_to '<button type="button"> Visit Notes </button>'.html_safe, patient_visit_notes_path(@patient.id) %> 
+
+<button disabled> Progress Words </button>
+

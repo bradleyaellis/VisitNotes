@@ -14,7 +14,6 @@ class VisitNotesController < ApplicationController
   end
 
   def edit
-    Rails.logger.debug @visit_note.inspect
   end
 
   def create
@@ -32,14 +31,13 @@ class VisitNotesController < ApplicationController
   end
 
   def update
-    respond_to do |format|
+    Rails.logger.debug quicksave.inspect
       if @visit_note.update(visit_note_params)
         format.html { redirect_to @visit_note, notice: "Visit note was successfully updated." }
         format.json { render :show, status: :ok, location: @visit_note }
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @visit_note.errors, status: :unprocessable_entity }
-      end
     end
   end
 
