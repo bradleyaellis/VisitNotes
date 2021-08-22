@@ -31,7 +31,7 @@ document.addEventListener('turbolinks:load', () ->
                 if !quicksave
                   Turbolinks.visit "/visit_notes/#{response.body.id}"
                 else 
-                  console.log("Quicksaved")
+                  this.Flash("Note Quicksaved!")
                 return
               (response) -> 
                 @errors = response.data.errors
