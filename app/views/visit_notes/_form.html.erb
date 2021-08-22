@@ -6,15 +6,36 @@
     id: "visit-notes-form",
     data: {
       visit_note: visit_note.to_json,
+      patient_id: patient_id
     } do %>
 
-  <p id="notice"><%= notice %></p>
-  <button v-on:click="Submit(true)"> + Quick Save </button>
+  <div style="width:50%; margin: auto">
+    <p>
+      <label> Title </label>
+      <input type="text" v-model="visit_note.title">
+      <label> Body </label>
+      <textarea v-model="visit_note.body" rows="10" cols="50"></textarea>
+    </p>
 
-  <label> Title </label>
-  <input type="text" v-model="visit_note.title">
-  <label> Body </label>
-  <textarea v-model="visit_note.body" rows="10" cols="50"></textarea>
-
-  <button v-on:click="Submit()"> Save </button>
+    <p style="text-align:center">
+      <button id="quicksave" v-on:click="Submit(true)"> Quick Save </button>
+      <button id="save" v-on:click="Submit()"> Save </button>
+    </p>
+  </div>
 <% end %>
+
+<style>
+#quicksave {
+  border: none;
+  border-radius: 2px;
+  background-color: green;
+  color: white;
+}
+
+#save {
+  border: none;
+  border-radius: 2px;
+  background-color: grey;
+  color:white;
+}
+</style>

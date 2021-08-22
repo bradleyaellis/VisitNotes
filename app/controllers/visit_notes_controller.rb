@@ -20,31 +20,27 @@ class VisitNotesController < ApplicationController
     @visit_note = VisitNote.new(visit_note_params)
     @visit_note.patient_id = params[:patient_id]
 
-    respond_to do |format|
-      if @visit_note.save
-        if params[:quicksave]
-          Rails.logger.debug "QUICKSAVED"
-          flash.now[:notice] = "Note Quicksaved."
-          return 
-        end
-
-        format.html { redirect_to patient_vist_notes_url(params[:patient_id]), notice: "Visit note was successfully created." }
-        format.json { render :edit, status: :created }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @visit_note.errors, status: :unprocessable_entity }
+    if @visit_note.save
+      if params[:quicksave]
+        Rails.logger.debug "QUICKSAVED"
+        render notice: "Note Quicksaved."
+        return false
       end
+
+      render json: @visit_note, status: 200, notice: "Visit note was successfully updated." 
+    else
+      render json: @visit_note.errors, status: :unprocessable_entity 
     end
   end
 
   def update
       if @visit_note.update(visit_note_params)
         if params[:quicksave] 
-          flash.now[:notice] = "Quicksaved" 
-          return
+          render json: @visit_note, status: 200 
+          return 
         end
 
-        redirect_to(patient_visit_note_path(@visit_note.id, @visit_note.patient_id), notice: "Visit note was successfully updated.")
+        render json: @visit_note, status: 200, notice: "Visit note was successfully updated." 
       else
         render json: @visit_note.errors, status: :unprocessable_entity 
       end
@@ -52,7 +48,6 @@ class VisitNotesController < ApplicationController
 
   def destroy
     @visit_note.destroy
-    Rails.logger.debug @visit_note.inspect
     respond_to do |format|
       format.html { redirect_to patient_visit_notes_url(params[:patient_id]), notice: "Visit note '#{@visit_note.title}' was successfully destroyed." }
       format.json { head :no_content }
