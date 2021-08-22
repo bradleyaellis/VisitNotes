@@ -1,14 +1,24 @@
 <p>
   <strong>Title:</strong>
-  <%= @visit_note.title %>
+  <%= @visit_note.title %> from <%= @visit_note.created_at.to_date %>
 </p>
 
 <p>
   <strong>Body:</strong>
   <%= @visit_note.body %>
 </p>
+<p>
+  <strong> Progress Words </strong>
+  <% @visit_note.progress_words.each do |word| %>
+    <p>
+      Word: <%= word.name %> || Rating: <%= word.rating %>
+    </p>
+  <% end %>
+<p>
+
 
 <p id="notice"><%= notice %></p>
 
-<%= link_to 'Edit', edit_patient_visit_note_path(@visit_note.patient, @visit_note) %> |
-<%= link_to 'Back', patient_visit_notes_path %>
+<%= link_to 'Edit', edit_visit_note_path(@visit_note) %> |
+<%= link_to 'Back', visit_notes_path %> |
+<%= link_to 'Delete', visit_note_path(@visit_note.id), method: :delete, data: { confirm: 'Are you sure?' } %>

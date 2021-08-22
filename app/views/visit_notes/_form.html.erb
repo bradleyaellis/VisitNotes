@@ -5,28 +5,34 @@
   <%= content_tag :div, 
     id: "visit-notes-form",
     data: {
-      visit_note: visit_note.to_json,
-      patient_id: patient_id
+      visit_note: visit_note.to_json
     } do %>
 
   <div style="width:50%; margin: auto">
     <p>
-      <label> Title </label>
+      <label> Title*</label>
       <input type="text" v-model="visit_note.title">
-      <label> Body </label>
+      <label> Body* </label>
       <textarea v-model="visit_note.body" rows="5" cols="50"></textarea>
-      <label> Progress Words <span style="color:grey"> -- currently not saving </span> </label>
-
-    <% visit_note.progress_words.each_with_index do |word, index| %>
-      <p> 
-        <input disabled type="text" value='<%= word.name %>'>
-        <input disabled size="5" max="5" type="number" value='<%= word.rating %>'> 
-        <% if index == 2 %>
-          <button disabled> + </button>
+      <label> Progress Words <span style="color:grey"> -- Currently not saving. Could be added manually through the console. </span> </label>
+    <p> 
+      <% if !visit_note.progress_words.empty? %>
+        <% visit_note.progress_words.each_with_index do |word, index| %>
+          <p>
+          <input disabled type="text" value='<%= word.name %>'>
+          <input disabled size="5" max="5" type="number" value='<%= word.rating %>'> 
+          <% if index == 2 %>
+            <button disabled> + Add </button>
+          <% end %>
         <% end %>
-      </p>
-    <% end %>
-    </p>
+          </p>
+      <% else %>
+        <p>
+          <input type="text">
+          <input size="5" max="5" type="number"> 
+          <button> + Add </button>
+        </p>
+      <% end %>
 
     <p style="text-align:center">
       <button id="quicksave" v-on:click="Submit(true)"> Quick Save </button>
