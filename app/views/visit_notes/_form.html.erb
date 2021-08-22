@@ -14,7 +14,18 @@
       <label> Title </label>
       <input type="text" v-model="visit_note.title">
       <label> Body </label>
-      <textarea v-model="visit_note.body" rows="10" cols="50"></textarea>
+      <textarea v-model="visit_note.body" rows="5" cols="50"></textarea>
+      <label> Progress Words <span style="color:grey"> -- currently not saving </span> </label>
+
+    <% visit_note.progress_words.each_with_index do |word, index| %>
+      <p> 
+        <input disabled type="text" value='<%= word.name %>'>
+        <input disabled size="5" max="5" type="number" value='<%= word.rating %>'> 
+        <% if index == 2 %>
+          <button disabled> + </button>
+        <% end %>
+      </p>
+    <% end %>
     </p>
 
     <p style="text-align:center">
@@ -26,6 +37,8 @@
 
 <style>
 #quicksave {
+  margin-left: 100px;
+  height: 20px;
   border: none;
   border-radius: 2px;
   background-color: green;
@@ -33,6 +46,7 @@
 }
 
 #save {
+  height: 20px;
   border: none;
   border-radius: 2px;
   background-color: grey;
