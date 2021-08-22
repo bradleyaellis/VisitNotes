@@ -11,7 +11,6 @@ document.addEventListener('turbolinks:load', () ->
   element = document.getElementById 'visit-notes-form'
   if element != null
     visitNote = JSON.parse(element.dataset.visitNote)
-    patientId = element.dataset.patientId
     app = new Vue(
       el: element
       data: ->
@@ -20,16 +19,17 @@ document.addEventListener('turbolinks:load', () ->
         Flash: (message) -> 
           span = document.getElementById 'notice'
           span.innerHTML = message
-           
+          setTimeout () ->
+            span.innerHTML = ''
+          , 3000
+
         Submit: (quicksave=false) ->
-          console.log("HereEerere", patientId);
-          visitNote.patient_id = patientId
           if visitNote.id == null
             @$http # NEW
-              .post "/patients/#{@visit_note.patient_id}/visit_notes", { visit_note: @visit_note, quicksave: quicksave } 
+              .post "/visit_notes", { visit_note: @visit_note, quicksave: quicksave } 
               .then (response) ->
                 if !quicksave
-                  Turbolinks.visit "/patients/#{@visit_note.patient_id}/visit_notes/#{response.body.id}"
+                  Turbolinks.visit "/visit_notes/#{response.body.id}"
                 else 
                   console.log("Quicksaved")
                 return
@@ -38,14 +38,12 @@ document.addEventListener('turbolinks:load', () ->
                 return
           else 
             @$http # EDIT 
-              .put "/patients/#{@visit_note.patient_id}/visit_notes/#{@visit_note.id}", { visit_note: @visit_note, quicksave: quicksave }
+              .put "/visit_notes/#{@visit_note.id}", { visit_note: @visit_note, quicksave: quicksave }
               .then (response) -> 
                 if !quicksave
-                  Turbolinks.visit "/patients/#{response.body.patient_id}/visit_notes/#{response.body.id}"
+                  Turbolinks.visit "/visit_notes/#{response.body.id}"
                 else
-                  console.log("quicksave", response);
                   this.Flash("Note Quicksaved!")
-                  console.log("Quicksaved")
                 return
               (response) ->
                   @errors = response.data.errors 

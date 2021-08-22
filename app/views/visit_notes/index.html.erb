@@ -1,7 +1,7 @@
 
 
 <div>
-  <h1> <%= @patient.name %> Visit Notes</h1> 
+  <h1> <%= %> Visit Notes</h1> 
   <h3 id="notice"><%= notice %></h3>
 </div>
 
@@ -18,18 +18,18 @@
       <tbody>
         <% @visit_notes.each do |visit_note| %>
           <tr>
-            <td style="text-align:left"><%= link_to visit_note.title, patient_visit_note_path(visit_note.patient, visit_note)  %></td>
+            <td style="text-align:left"><%= link_to visit_note.title, visit_note_path(visit_note)  %></td>
             <td style="text-align:left"><%= visit_note.body %></td>
-            <td style="text-align:right"><%= link_to 'Edit', edit_patient_visit_note_path(visit_note.patient.id, visit_note) %></td>
+            <td style="text-align:right"><%= link_to 'Edit', edit_visit_note_path(visit_note) %></td>
             <td style="text-align:right"><%= link_to 'Export to Pdf', "#" %></td>
-            <td style="text-align:right"><%= link_to 'Delete', patient_visit_note_path(visit_note.patient, visit_note.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            <td style="text-align:right"><%= link_to 'Delete', visit_note_path(visit_note.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
           </tr>
         <% end %>
       </tbody>
     </table>
   <% else %>
-    <h5> <%= @patient.name %> has no visit notes. </h5>
+    <h5> There are no has no visit notes. </h5>
   <% end %>
 <br>
 
-<%= link_to 'New Visit Note', new_patient_visit_note_path %>
+<%= link_to 'New Visit Note', new_visit_note_path %>

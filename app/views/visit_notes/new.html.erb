@@ -1,5 +1,5 @@
-<h1>New Visit Note for <%= @patient.name %></h1>
+<h1>New Visit Note </h1>
 <div style="height:25px" id="notice"> </div>
 
-<%= render 'form', { visit_note: @visit_note, patient_id: @patient.id } %>
-<%= link_to 'Back', patient_visit_notes_path %>
+<%= render 'form', visit_note: @visit_note %>
+<%= link_to 'Back', visit_notes_path %>
