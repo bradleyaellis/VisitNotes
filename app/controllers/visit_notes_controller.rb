@@ -1,18 +1,22 @@
 class VisitNotesController < ApplicationController
-  before_action :set_visit_note, only: %i[show edit update destroy]
+  # before_action :set_visit_note, only: %i[show edit update destroy]
   # before_action :set_patient
 
   def index
     @visit_notes = VisitNote.all
   end
 
-  def show; end
+  def show; 
+    @visit_note = set_visit_note
+  end
 
   def new
     @visit_note = VisitNote.new
   end
 
-  def edit; end
+  def edit; 
+    @visit_note = set_visit_note
+  end
 
   def create
     @visit_note = VisitNote.new(visit_note_params)
@@ -29,6 +33,7 @@ class VisitNotesController < ApplicationController
   end
 
   def update
+    @visit_note = set_visit_note
     if @visit_note.update(visit_note_params)
       if params[:quicksave]
         render json: @visit_note, status: 200
@@ -42,6 +47,7 @@ class VisitNotesController < ApplicationController
   end
 
   def destroy
+    @visit_note = set_visit_note
     @visit_note.destroy
     respond_to do |format|
       format.html do

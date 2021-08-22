@@ -20,4 +20,5 @@
 <p id="notice"><%= notice %></p>
 
 <%= link_to 'Edit', edit_visit_note_path(@visit_note) %> |
-<%= link_to 'Back', visit_notes_path %>
+<%= link_to 'Back', visit_notes_path %> |
+<%= link_to 'Delete', visit_note_path(@visit_note.id), method: :delete, data: { confirm: 'Are you sure?' } %>
