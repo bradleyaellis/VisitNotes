@@ -1,4 +1,3 @@
 class ProgressWord < ApplicationRecord
-    belongs_to :patient
-    belongs_to :visit_note, optional: true
+    has_many :visit_note_words
 end

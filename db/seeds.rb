@@ -10,14 +10,19 @@
     Patient.create(name: Faker::FunnyName.name_with_initial, age: Faker::Number.number(digits: 1))
 end
 
+5.times do |i|
+    ProgressWord.create(name: Faker::Cosmere.aon)
+end
+
 Patient.all.each do |p|
     5.times do |i|
         VisitNote.create(patient_id: p.id, title: Faker::Date.forward(days: i * 7), body: Faker::Lorem.paragraph)
     end
 
-    p.visit_notes.each do |vn|
-        5.times do |ii|
-            ProgressWord.create(name: Faker::Cosmere.aon, rating: Faker::Number.between(from: 1, to: 5), patient_id: p.id, visit_note_id: vn.id)
+    p.visit_notes.all.each do |w|
+        ProgressWord.all.each do |v|
+            VisitNoteWord.create(patient_id: w.patient_id, visit_note_id: w.id, progress_word_id: v.id, name: v.name, rating: Faker::Number.between(from: 1, to: 5))
         end
     end
 end
+
