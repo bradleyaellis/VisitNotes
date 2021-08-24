@@ -22,8 +22,8 @@ class VisitNotesController < ApplicationController
 
     if @visit_note.save
       if params[:quicksave]
-        Rails.logger.debug "QUICKSAVED"
-        render notice: "Note Quicksaved."
+        Rails.logger.debug "#{@visit_note.inspect} QUICKSAVED"
+        render json: @visit_note
         return false
       end
 
