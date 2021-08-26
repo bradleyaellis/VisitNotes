@@ -5,7 +5,7 @@ import VueResource from 'vue-resource'
 Vue.use(VueResource)
 Vue.use(TurbolinksAdapter)
 document.addEventListener('turbolinks:load', () => { 
-  console.log("LOADED")
+
   Vue.http.headers.common['X-CSRF-Token'] = document
     .querySelector('meta[name="csrf-token"]')
     .getAttribute('content')
@@ -13,17 +13,32 @@ document.addEventListener('turbolinks:load', () => {
   let element = document.getElementById('visit-notes-form')
   if (element != null) { 
     let visitNote = JSON.parse(element.dataset.visitNote)
-    let patientId = element.dataset.patientId
-    app = new Vue({
+    console.log(element.dataset);
+    let noteWords = JSON.parse(element.dataset.visitNoteWords);
+    // let patientId = element.dataset.patientId
+    const app = new Vue({
       el: element,
       data: () => ({ 
          visit_note: visitNote,
+         note_words: noteWords,
          newId: 0
       }),
       computed: { 
         id() {
           return (this.visit_note.id ? this.visit_note.id : this.newId)
         },
+        percentage(){
+          console.log(this.note_words);
+          let values = this.note_words.map(nw => nw.rating)
+          values = values.reduce((a, b) => a + b, 0);
+          console.log(values, this.note_words.length);
+          let percentage = ((this.note_words.length / values).toFixed(2)) * 100;
+
+          return percentage;
+        }
+      },
+      mounted() {
+        console.log("YEAH", noteWords)
       },
       methods: { 
         Flash(message){  

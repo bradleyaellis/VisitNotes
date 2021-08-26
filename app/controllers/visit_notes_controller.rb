@@ -14,6 +14,7 @@ class VisitNotesController < ApplicationController
   end
 
   def edit
+    Rails.logger.debug @visit_note.visit_note_words.inspect
   end
 
   def create
@@ -60,7 +61,7 @@ class VisitNotesController < ApplicationController
 
   private
     def set_visit_note
-      @visit_note = VisitNote.find(params[:id])
+      @visit_note = VisitNote.includes(:visit_note_words).find_by(id: params[:id])
     end
   
     def visit_note_params

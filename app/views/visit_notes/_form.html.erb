@@ -6,6 +6,7 @@
     id: "visit-notes-form",
     data: {
       visit_note: visit_note.to_json,
+      visit_note_words: visit_note.visit_note_words.to_json,
       patient_id: patient_id
     } do %>
 
@@ -17,15 +18,19 @@
       <textarea v-model="visit_note.body" rows="5" cols="50"></textarea>
       <label> Progress Words <span style="color:grey"> -- currently not saving </span> </label>
 
-    <% visit_note.progress_words.each_with_index do |word, index| %>
+    <% visit_note.visit_note_words.each_with_index do |word, index| %>
       <p> 
         <input disabled type="text" value='<%= word.name %>'>
         <input disabled size="5" max="5" type="number" value='<%= word.rating %>'> 
-        <% if index == 2 %>
+        <% if index == visit_note.visit_note_words.length - 1 %>
           <button disabled> + </button>
         <% end %>
       </p>
     <% end %>
+
+      <p>
+        <input disabled :value="percentage">
+      </p>
     </p>
 
     <p style="text-align:center">
