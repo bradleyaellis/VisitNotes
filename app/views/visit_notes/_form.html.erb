@@ -12,8 +12,17 @@
 
   <div style="width:50%; margin: auto">
     <p>
-      <label> Title </label>
-      <input type="text" v-model="visit_note.title">
+      <div>
+        <label> Title </label>5050
+        <input type="text" v-model="visit_note.title">
+        
+        <label class="switch">
+          <input v-model="autosave" type="checkbox">
+          <span class="slider round">  </span>
+          <span> Autosave </span>
+        </label>
+      </div>
+      
       <label> Body </label>
       <textarea v-model="visit_note.body" rows="5" cols="50"></textarea>
       <label> Progress Words <span style="color:grey"> -- currently not saving </span> </label>
@@ -33,10 +42,15 @@
       </p>
     </p>
 
-    <p style="text-align:center">
-      <button id="quicksave" v-on:click="Submit(true)"> Quick Save </button>
-      <button id="save" v-on:click="Submit()"> Save </button>
-    </p>
+    <div>
+      <p style="width: 45%; text-align: left">
+        <button id="replaceSH" v-on:click="replaceShortHand()"> Find and Replace Shorthand </button>
+      </p>
+      <p style="width: 45%; text-align:right">
+        <button id="quicksave" v-on:click="Submit(true)"> Quick Save </button>
+        <button id="save" v-on:click="Submit()"> Save </button>
+      </p>
+    </div>
   </div>
 <% end %>
 
@@ -57,4 +71,73 @@
   background-color: grey;
   color:white;
 }
+
+#replaceSH {
+  border: none;
+  border-radius: 2px;
+  background-color: blue;
+  color:White;
+}
+
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 30px;
+  height: 17px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .5s;
+  transition: .5s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 13px;
+  width: 13px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  -webkite-transition: .5s;
+  transition: .5s;
+}
+
+input:checked + .slider {
+  background-color: #2195F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(13px);
+  -ms-transform: translate(13px);
+  transform: translateX(13px)
+}
+
+.slider.round {
+  border-radius: 17px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+
 </style>

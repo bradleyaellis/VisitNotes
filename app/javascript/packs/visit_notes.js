@@ -21,7 +21,9 @@ document.addEventListener('turbolinks:load', () => {
       data: () => ({ 
          visit_note: visitNote,
          note_words: noteWords,
-         newId: 0
+         autosave: false,
+         newId: 0,
+         short_hand_words: []
       }),
       computed: { 
         id() {
@@ -32,9 +34,16 @@ document.addEventListener('turbolinks:load', () => {
           let values = this.note_words.map(nw => nw.rating)
           values = values.reduce((a, b) => a + b, 0);
           console.log(values, this.note_words.length);
-          let percentage = ((this.note_words.length / values).toFixed(2)) * 100;
-
+          let percentage = (this.note_words.length / values) * 100;
+          percentage = percentage.toFixed(0)
           return percentage;
+        }
+      },
+      watch: {
+        autosave(val){
+          if (val) {
+            this.autoSaveNote(val);
+          }
         }
       },
       mounted() {
@@ -44,6 +53,14 @@ document.addEventListener('turbolinks:load', () => {
         Flash(message){  
           span = document.getElementById('notice')
           span.innerHTML = message
+        },
+        replaceShortHand(){
+          let words = this.visit_note.body.split(" ")
+
+          for(let i = 0; i < words.length; i++){
+            console.log(words[i])
+          }
+
         },
         Submit(quicksave=false){
           if (this.id == null) { 
