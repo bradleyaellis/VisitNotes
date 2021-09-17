@@ -30,10 +30,8 @@ document.addEventListener('turbolinks:load', () => {
           return (this.visit_note.id ? this.visit_note.id : this.newId)
         },
         percentage(){
-          console.log(this.note_words);
           let values = this.note_words.map(nw => nw.rating)
           values = values.reduce((a, b) => a + b, 0);
-          console.log(values, this.note_words.length);
           let percentage = (this.note_words.length / values) * 100;
           percentage = percentage.toFixed(0)
           return percentage;
@@ -55,13 +53,20 @@ document.addEventListener('turbolinks:load', () => {
           span.innerHTML = message
         },
         replaceShortHand(){
-          let words = this.visit_note.body.split(" ")
+          const mapWords = new Map();
+          mapWords.set("twp", "trouble word pronunciation");
+          mapWords.set("ewe", "excited word errors")
+          mapWords.set("tw", "trouble word"),
+          mapWords.set("mwr", "more work required")
 
-          for(let i = 0; i < words.length; i++){
-            console.log(words[i])
+          let newString = this.visit_note.body 
+
+          for(let [key, value] of mapWords){
+              newString = newString.replace(key, value)
           }
 
-        },
+            this.visit_note.body = newString
+          },
         Submit(quicksave=false){
           if (this.id == null) { 
             // NEW
