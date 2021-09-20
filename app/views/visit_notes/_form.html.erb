@@ -10,75 +10,85 @@
       patient_id: patient_id
     } do %>
 
-  <div style="width:50%; margin: auto">
-    <p>
-      <div>
-        <label> Title </label>5050
-        <input type="text" v-model="visit_note.title">
-        
-        <label class="switch">
-          <input v-model="autosave" type="checkbox">
-          <span class="slider round">  </span>
-          <span> Autosave </span>
-        </label>
-      </div>
-      
-      <label> Body </label>
-      <textarea v-model="visit_note.body" rows="5" cols="50"></textarea>
-      <label> Progress Words <span style="color:grey"> -- currently not saving </span> </label>
-
-    <% visit_note.visit_note_words.each_with_index do |word, index| %>
-      <p> 
-        <input disabled type="text" value='<%= word.name %>'>
-        <input disabled size="5" max="5" type="number" value='<%= word.rating %>'> 
-        <% if index == visit_note.visit_note_words.length - 1 %>
-          <button disabled> + </button>
-        <% end %>
-      </p>
-    <% end %>
-
+  <div id="outer">
+    <div id="inner">
       <p>
-        <input disabled :value="percentage">
-      </p>
-    </p>
+        <div>
+          <label> Title </label>
+          <input type="text" v-model="visit_note.title">
+          <label class="switch">
+            <input v-model="autosave" type="checkbox">
+            <div> <span class="slider round">  </span>  Autosave </div>
+            <span>  </span>
+          </label>
+        </div>
+        
+        <textarea v-model="visit_note.body" rows="5" cols="50"></textarea>
+        <label> Progress Words <span style="color:grey"> -- currently not saving </span> </label>
 
-    <div>
-      <p style="width: 45%; text-align: left">
-        <button id="replaceSH" v-on:click="replaceShortHand()"> Find and Replace Shorthand </button>
-      </p>
-      <p style="width: 45%; text-align:right">
-        <button id="quicksave" v-on:click="Submit(true)"> Quick Save </button>
-        <button id="save" v-on:click="Submit()"> Save </button>
+      <% visit_note.visit_note_words.each_with_index do |word, index| %>
+        <p> 
+          <input disabled type="text" size="2" value='<%= word.name %>'>
+          <input disabled size="2" max="5" type="number" value='<%= word.rating %>'> 
+          <% if index == visit_note.visit_note_words.length - 1 %>
+            <button disabled> + </button>
+          <% end %>
+        </p>
+      <% end %>
+
+        <p>
+          Progress Word Total <input :style="progressWordClass" disabled size="2" :value="percentage">
+        </p>
       </p>
     </div>
+      <div id="buttons">
+        <button class="buttons" id="replaceSH" v-on:click="replaceShortHand()"> Find and Replace Shorthand </button>
+        <button class="buttons" id="quicksave" v-on:click="Submit(true)"> Quick Save </button>
+        <button class="buttons" id="save" v-on:click="Submit()"> Save </button>
+      </div>
   </div>
 <% end %>
 
 <style>
-#quicksave {
-  margin-left: 100px;
-  height: 20px;
+
+#outer { 
+  background-color: grey; 
+  text-align:center; 
+  width:50%; 
+  margin: auto
+}
+
+#inner {
+  width: 80%;
+  margin: auto;
+  border: 1px black dotted;
+}
+
+#buttons{ 
+  margin: 15px;
+}
+
+.buttons {
+  height: 25px;
   border: none;
   border-radius: 2px;
+}
+
+#quicksave {
+  margin-right: 100px;
   background-color: green;
   color: white;
 }
 
 #save {
-  height: 20px;
-  border: none;
-  border-radius: 2px;
   background-color: grey;
   color:white;
 }
 
 #replaceSH {
-  border: none;
-  border-radius: 2px;
   background-color: blue;
   color:White;
 }
-
 
 .switch {
   position: relative;
@@ -138,6 +148,4 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
-
-
 </style>

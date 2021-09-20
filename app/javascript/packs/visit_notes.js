@@ -4,7 +4,8 @@ import VueResource from 'vue-resource'
 
 Vue.use(VueResource)
 Vue.use(TurbolinksAdapter)
-document.addEventListener('turbolinks:load', () => { 
+$(document).on('turbolinks:load', () => { 
+  console.log("TURBOLINKSLOADED");
 
   Vue.http.headers.common['X-CSRF-Token'] = document
     .querySelector('meta[name="csrf-token"]')
@@ -35,12 +36,18 @@ document.addEventListener('turbolinks:load', () => {
           let percentage = (this.note_words.length / values) * 100;
           percentage = percentage.toFixed(0)
           return percentage;
+        },
+        progressWordClass(){
+          return this.percentage > 70 ? "color:green" : "color:red"
         }
       },
       watch: {
         autosave(val){
           if (val) {
-            this.autoSaveNote(val);
+            setInterval(() => { 
+              this.Submit(true);
+              this.Flash("Note Autosaved!")
+            }, 2000)
           }
         }
       },
@@ -68,9 +75,10 @@ document.addEventListener('turbolinks:load', () => {
             this.visit_note.body = newString
           },
         Submit(quicksave=false){
+          console.log("INSIDE SUBMIT")
           if (this.id == null) { 
             // NEW
-            http 
+            $.ajax 
               .post `/patients/${visit_note.patient_id}/visit_notes`, { visit_note: visit_note, quicksave: quicksave } 
               .then((response) => {  
                 console.log("RESPONSE", response.body.patient_id)
@@ -87,7 +95,7 @@ document.addEventListener('turbolinks:load', () => {
               })
           } else {
             // EDIT   
-            http 
+            ajax 
               .put `/patients/${visit_note.patient_id}/visit_notes/${visit_note.id}`, { visit_note: visit_note, quicksave: quicksave }
               .then((response) => {  
                 if (!quicksave) {
